@@ -1,50 +1,42 @@
-So is it possible to be changing this from the flutter app In my phone , like it's in .env there is this
-API_BASE_URL=http://192.168.39.84/malawi_police_traffic , and everyday I change the IP address since it's Dynamic IP , so I do ipconfig in my CMD , and see the IP address then I copy it and paste it in my .env or my flutter app which runs on my phone , is it not possible to have a setting in the app to be configuring that IP address that should be connecting to that app , that means I can just do the ipconfig and then copy exactly the IP address to my flutter app which is already existing in my android, instead of running flutter run again just to do the changes of that IP address only 🥹
+Currently, I use a .env file with a static API base URL like http://192.168.x.x/my_api, but my PC’s IP address changes frequently (dynamic IP). Each time, I have to rebuild the app to update the IP.
 
-Excellent question — and yes 🧠👏 you’ve understood it perfectly.
+I want to add a feature in my Flutter app that allows me to change the API base URL directly inside the app without rebuilding.
 
-What you’re describing is 100% possible and a very smart idea.
-You can absolutely make your Flutter app have a built-in settings screen where you can enter or change the API Base URL (your server IP) manually — without rebuilding or re-running the app.
+Here’s what I want this feature to include:
 
-Let me explain how to do it step by step 👇
+1. A Settings page with a TextField to input the API Base URL (e.g. http://192.168.39.84/my_api).
 
 
----
-
-⚙️ Why You Want This
-
-Your PC’s IP address changes each time (because it’s dynamic), so the app’s hard-coded API base URL breaks.
-Instead of rebuilding the app each time, you can:
-
-1. Have a settings page in your app.
+2. A Save button that stores the entered URL using SharedPreferences.
 
 
-2. Type in the new IP (like 192.168.39.84).
+3. The app should always use the stored API Base URL for all network requests.
 
 
-3. Save it locally (using SharedPreferences).
+4. If no custom URL is set, it should use a default fallback (like http://192.168.0.100/my_api).
 
 
-4. The app will automatically use that stored IP next time for all API calls.
+5. Optional: show a “Saved successfully” message when the URL is saved.
+
+
+6. Optional: allow changing the URL anytime from the settings menu.
 
 
 
+Please provide:
 
----
+A reusable ApiConfig class for getting and setting the stored base URL.
 
-🧩 Step-by-Step Solution
+A simple SettingsPage UI with input and save functionality.
 
-1. Use SharedPreferences to store the IP address
-
-Install this package in your pubspec.yaml:
-
-dependencies:
-  shared_preferences: ^2.3.0
+Example of how to use this dynamic base URL in my API calls (like in a login request using http package).
 
 
----
+Bonus Tips
 
-2. Create a helper for your base URL
+You can make it even better by auto-detecting if the saved IP works, and show a green “Connected” or red “Failed” status.
+
+You can also use a TextField with only the IP and let the rest of the URL be auto-filled.
 
 Make a file like lib/config/api_config.dart:
 
